@@ -1,47 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <title>WebARデモ</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <!-- A-Frame -->
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <!-- AR.js -->
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  </head>
-  <body style="margin: 0; overflow: hidden;">
+    <title>マーカーレスARデモ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <a-scene embedded arjs>
-      <!-- Hiroマーカーを認識したら中身を表示 -->
-      <a-marker preset="hiro">
-        
-        <!-- 1. 赤い箱 -->
-        <a-box 
-          position="0 0.5 0" 
-          material="color: #EF2D5E; opacity: 0.8"
-          animation="property: rotation; to: 0 360 0; loop: true; dur: 3000; easing: linear">
-        </a-box>
-
-        <!-- 2. 立体的なドーナツ型 (a-torus) -->
-        <a-torus 
-          position="0 0.5 0" 
-          radius="0.8" 
-          radius-tubular="0.05"
-          material="color: #4CC3D9;"
-          animation="property: rotation; to: 360 360 0; loop: true; dur: 5000; easing: linear">
-        </a-torus>
-
-        <!-- 3. 文字 -->
-        <a-entity 
-          position="0 1.5 0" 
-          text="value: Success!; color: yellow; align: center; width: 5"
-          animation="property: position; dir: alternate; to: 0 1.8 0; loop: true; dur: 1000">
-        </a-entity>
-
-      </a-marker>
+    <!-- Googleのmodel-viewerを読み込み -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    
+    <style>
+      /* 画面いっぱいに表示する設定 */
+      body { margin: 0; padding: 0; width: 100vw; height: 100vh; }
+      model-viewer { width: 100%; height: 100%; background-color: #404040; }
       
-      <a-entity camera></a-entity>
-    </a-scene>
+      /* ARボタンのデザイン */
+      #ar-button {
+        background-image: url(https://modelviewer.dev/shared-assets/icons/ic_view_in_ar_new_googblue_48dp.png);
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        background-position: 12px 50%;
+        background-color: #fff;
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        padding: 0px 16px 0px 40px;
+        font-family: Roboto, Regular, Helvetica, sans-serif;
+        font-size: 14px;
+        color:#4285f4;
+        height: 36px;
+        line-height: 36px;
+        border-radius: 18px;
+        border: 1px solid #DADCE0;
+        cursor: pointer;
+        z-index: 100;
+        box-shadow: 0px 1px 2px 0px rgba(60,64,67,0.3);
+      }
+    </style>
+  </head>
+  <body>
+    
+    <!-- 
+      src: 3DモデルのURL（ここではGoogleのサンプル宇宙飛行士）
+      ar: AR機能を有効にする
+      ar-modes: ARの起動モード設定
+      camera-controls: 指でグリグリ動かせるようにする
+      shadow-intensity: 影の濃さ
+    -->
+    <model-viewer 
+      src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+      ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+      alt="宇宙飛行士の3Dモデル"
+      ar
+      ar-modes="scene-viewer webxr quick-look"
+      camera-controls
+      touch-action="pan-y"
+      shadow-intensity="1">
+      
+      <!-- ARを起動するカスタムボタン -->
+      <button slot="ar-button" id="ar-button">
+        ARで見る
+      </button>
+      
+    </model-viewer>
+
   </body>
 </html>
 
